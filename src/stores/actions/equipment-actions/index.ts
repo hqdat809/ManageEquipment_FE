@@ -1,7 +1,4 @@
-import {
-  IEquipmentDetail,
-  IGetEquipmentRequest,
-} from "../../../interfaces/equipment-interface";
+import { IGetEquipmentRequest } from "../../../interfaces/equipment-interface";
 import { EEquipmentActions } from "./constants";
 import {
   TCreateEquipmentAction,

@@ -1,13 +1,12 @@
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import { Button } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Modal from "../../../components/modal/Modal";
 import Table, { userColumn } from "../../../components/table/Table";
 import { IUserDetail } from "../../../interfaces/user-interfaces";
-import { TRootState } from "../../../stores/reducers";
 import { EUserActions } from "../../../stores/actions/user-actions/constants";
-import { Button } from "@mui/material";
-import { transferService } from "../../../services/user-service";
-import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import { TRootState } from "../../../stores/reducers";
 interface IProps {
   isOpenModal: boolean;
   onCloseModal: () => void;

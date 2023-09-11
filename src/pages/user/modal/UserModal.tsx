@@ -1,16 +1,15 @@
-import React, { ReactElement } from "react";
-import Modal from "../../../components/modal/Modal";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import "./UserModal.scss";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { ErrorMessage, Form, Formik } from "formik";
+import * as Yup from "yup";
+import Modal from "../../../components/modal/Modal";
 import {
   EUserModalType,
   IUserDetail,
   TCreateUserRequest,
   TUpdateUserRequest,
 } from "../../../interfaces/user-interfaces";
+import "./UserModal.scss";
 
 interface IUserModalProps {
   isOpenModal: boolean;

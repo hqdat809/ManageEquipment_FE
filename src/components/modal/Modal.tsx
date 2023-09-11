@@ -1,7 +1,7 @@
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Modal as ModalMUI, ModalProps } from "@mui/material";
 import { ReactElement } from "react";
 import "./Modal.scss";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 interface IModalProps extends ModalProps {
   open: boolean;
   handleCloseModal?: () => void;

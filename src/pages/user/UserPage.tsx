@@ -1,14 +1,6 @@
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createUserAction,
-  deleteUserAction,
-  getUsersAction,
-  transferEquipmentAction,
-  updateUserAction,
-} from "../../stores/actions/user-actions";
-import "./UserPage.scss";
-import { TRootState } from "../../stores/reducers";
 import Table, { userColumn } from "../../components/table/Table";
 import {
   EUserModalType,
@@ -16,11 +8,19 @@ import {
   TCreateUserRequest,
   TUpdateUserRequest,
 } from "../../interfaces/user-interfaces";
-import { Button } from "@mui/material";
-import UserModal from "./modal/UserModal";
-import { EUserActions } from "../../stores/actions/user-actions/constants";
-import UserTransferModal from "./modal/UserTransferModal";
 import { getEquipmentAction } from "../../stores/actions/equipment-actions";
+import {
+  createUserAction,
+  deleteUserAction,
+  getUsersAction,
+  transferEquipmentAction,
+  updateUserAction,
+} from "../../stores/actions/user-actions";
+import { EUserActions } from "../../stores/actions/user-actions/constants";
+import { TRootState } from "../../stores/reducers";
+import "./UserPage.scss";
+import UserModal from "./modal/UserModal";
+import UserTransferModal from "./modal/UserTransferModal";
 
 const UserPage = () => {
   const dispatch = useDispatch();

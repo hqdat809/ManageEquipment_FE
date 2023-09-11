@@ -1,5 +1,20 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import { IUserDetail } from "../../interfaces/user-interfaces";
+import {
+  createUser,
+  deleteUser,
+  getUsers,
+  transferService,
+  updateUser,
+} from "../../services/user-service";
+import { toastError, toastSuccess } from "../../utils/notifications-utils";
 import { EUserActions } from "../actions/user-actions/constants";
+import {
+  TCreateUserAction,
+  TDeleteUserAction,
+  TTransferEquipmentAction,
+  TUpdateUserAction,
+} from "../actions/user-actions/types";
 import {
   createUserRequestAction,
   createUserSuccessAction,
@@ -16,21 +31,6 @@ import {
   updateUserRequestAction,
   updateUserSuccessAction,
 } from "./../actions/user-actions/index";
-import { toastError, toastSuccess } from "../../utils/notifications-utils";
-import {
-  createUser,
-  deleteUser,
-  getUsers,
-  transferService,
-  updateUser,
-} from "../../services/user-service";
-import { IUserDetail } from "../../interfaces/user-interfaces";
-import {
-  TCreateUserAction,
-  TDeleteUserAction,
-  TTransferEquipmentAction,
-  TUpdateUserAction,
-} from "../actions/user-actions/types";
 
 function* getUserSaga() {
   try {

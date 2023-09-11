@@ -1,4 +1,5 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Skeleton } from "@mui/lab";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
@@ -11,11 +12,9 @@ import EquipmentModal from "../../pages/equipment/modal/EquipmentModal";
 import HistoryModal from "../../pages/equipment/modal/HistoryModal";
 import {
   deleteEquipmentAction,
-  getEquipmentAction,
   updateEquipmentAction,
 } from "../../stores/actions/equipment-actions";
 import { TRootState } from "../../stores/reducers";
-import { Skeleton } from "@mui/lab";
 import "./EquipmentCard.scss";
 
 interface IEquipmentCardProps {

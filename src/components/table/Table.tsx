@@ -1,18 +1,18 @@
-import { Button, Pagination } from "@mui/material";
+import { Button } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { TRootState } from "../../stores/reducers";
-import { IUserDetail } from "../../interfaces/user-interfaces";
-import { IEquipmentDetail } from "../../interfaces/equipment-interface";
 import { useState } from "react";
-import Modal from "../modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
 import EquipmentCard from "../../containers/equipment-card/EquipmentCard";
+import { IEquipmentDetail } from "../../interfaces/equipment-interface";
+import { IUserDetail } from "../../interfaces/user-interfaces";
 import { getEquipmentAction } from "../../stores/actions/equipment-actions";
+import { TRootState } from "../../stores/reducers";
+import Modal from "../modal/Modal";
 
 interface IOwnerEquipmentProps {
   userId: number;
@@ -33,6 +33,9 @@ const EquipmentColumn = (equipmentIds: number[]) => {
   const dispatch = useDispatch();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [page, setPage] = useState(1);
+  const totalPage = useSelector(
+    (state: TRootState) => state.equipment.totalPages
+  );
   const equipments = useSelector((state: TRootState) =>
     state.equipment.equipments.filter((equip: IEquipmentDetail) =>
       equipmentIds.some((equipmentId: number) => equip.id === equipmentId)
@@ -72,21 +75,6 @@ const EquipmentColumn = (equipmentIds: number[]) => {
           {equipments.length ? (
             equipments.map((equip: IEquipmentDetail) => (
               <div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <Pagination
-                    defaultPage={page}
-                    count={5}
-                    color="primary"
-                    onChange={handleChangePage}
-                  />
-                </div>
-
                 <EquipmentCard details={equip} isData />
               </div>
             ))

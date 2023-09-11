@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EquipmentCard from "../../containers/equipment-card/EquipmentCard";
@@ -17,7 +18,6 @@ import { TRootState } from "../../stores/reducers";
 import "./Equipment.scss";
 import EquipmentModal from "./modal/EquipmentModal";
 import EquipmentTransferModal from "./modal/EquipmentTransferModal";
-import Pagination from "@mui/material/Pagination";
 
 const Equipment = () => {
   const dispatch = useDispatch();

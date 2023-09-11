@@ -1,13 +1,13 @@
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Button from "@mui/material/Button";
-import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import { ErrorMessage, Form, Formik } from "formik";
-import * as Yup from "yup";
 import { styled } from "@mui/material/styles";
+import { ErrorMessage, Form, Formik } from "formik";
+import { useState } from "react";
+import * as Yup from "yup";
 import Modal from "../../../components/modal/Modal";
 import { EEquipmentModalType } from "../../../interfaces/equipment-interface";
 import "./EquipmentModal.scss";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 interface IEquipmentModalProps {
   isOpenModal: boolean;

@@ -1,7 +1,6 @@
-import React from "react";
-import Modal from "./Modal";
 import { Button } from "@mui/material";
 import "./ConfirmModal.scss";
+import Modal from "./Modal";
 
 interface IConfirmModalProps {
   isOpen: boolean;
