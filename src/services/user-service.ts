@@ -3,10 +3,6 @@ import {
   TTransferEquipment,
   TUpdateUserRequest,
 } from "../interfaces/user-interfaces";
-import {
-  TDeleteUserAction,
-  TUpdateUserAction,
-} from "../stores/actions/user-actions/types";
 import { ApiClient } from "./api-clients";
 
 export const getUsers = async () => {

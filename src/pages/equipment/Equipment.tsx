@@ -48,6 +48,7 @@ const Equipment = () => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
+    console.log(event);
     setPage(value);
     dispatch(getEquipmentAction({ pageNo: value - 1, pageSize: 5 }));
   };
@@ -59,12 +60,6 @@ const Equipment = () => {
   const handleUpdateEquipment = (values: any) => {
     console.log(values);
     dispatch(updateEquipmentAction(values, handleGetEquipments));
-  };
-
-  const handleOpenUpdateModal = (equipment: IEquipmentDetail) => {
-    setIsOpenEquipmentModal(true);
-    setSelectedEquipment(equipment);
-    setEquipmentModalType(EEquipmentModalType.UPDATE_EQUIPMENT);
   };
 
   const handleGetEquipments = () => {

@@ -9,13 +9,7 @@ interface IModalProps extends ModalProps {
   title?: string;
 }
 
-const Modal = ({
-  title,
-  children,
-  open,
-  handleCloseModal,
-  ...rest
-}: IModalProps) => {
+const Modal = ({ title, children, open, handleCloseModal }: IModalProps) => {
   return (
     <div>
       <ModalMUI

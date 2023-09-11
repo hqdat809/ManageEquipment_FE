@@ -38,9 +38,6 @@ const EquipmentCard = ({
   );
   const [isOpenEquipmentModal, setIsOpenEquipmentModal] = useState(false);
   const [isOpenHistoryModal, setIsOpenHistoryModal] = useState(false);
-  const [equipmentModalType, setEquipmentModalType] = useState(
-    EEquipmentModalType.UPDATE_EQUIPMENT
-  );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -144,7 +141,7 @@ const EquipmentCard = ({
       </div>
       <EquipmentModal
         isOpenModal={isOpenEquipmentModal}
-        equipmentModalType={equipmentModalType}
+        equipmentModalType={EEquipmentModalType.UPDATE_EQUIPMENT}
         handleCloseModal={() => setIsOpenEquipmentModal(false)}
         onUpdateEquipment={handleUpdateEquipment}
         selectedEquipment={details}

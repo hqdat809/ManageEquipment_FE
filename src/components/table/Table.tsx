@@ -30,25 +30,12 @@ const OwnerColumn = ({ userId }: IOwnerEquipmentProps) => {
 };
 
 const EquipmentColumn = (equipmentIds: number[]) => {
-  const dispatch = useDispatch();
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [page, setPage] = useState(1);
-  const totalPage = useSelector(
-    (state: TRootState) => state.equipment.totalPages
-  );
   const equipments = useSelector((state: TRootState) =>
     state.equipment.equipments.filter((equip: IEquipmentDetail) =>
       equipmentIds.some((equipmentId: number) => equip.id === equipmentId)
     )
   );
-
-  const handleChangePage = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    setPage(value);
-    dispatch(getEquipmentAction({ pageNo: value - 1, pageSize: 5 }));
-  };
 
   const handleClickCheck = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
