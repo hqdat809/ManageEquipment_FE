@@ -1,0 +1,43 @@
+.EquipmentCard {
+  width: 100%;
+  padding: 16px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  gap: 8px;
+
+  &__img {
+    border-radius: 12px;
+    overflow: hidden;
+    min-width: 130px;
+    max-height: 130px;
+
+    img {
+      min-width: 130px;
+      min-height: 130px;
+      max-width: 130px;
+      max-height: 130px;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__name {
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  &__desc {
+    font-style: italic;
+  }
+
+  &__menu {
+    cursor: pointer;
+  }
+}

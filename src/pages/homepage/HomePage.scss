@@ -1,0 +1,27 @@
+.HomePage {
+  display: flex;
+  position: relative;
+  background-color: #8ec5fc;
+  background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+
+  min-height: 100vh;
+
+  &__sidebar {
+    margin-left: 10px;
+    position: fixed;
+    height: 100vh;
+    min-width: 200px;
+    background-color: rgba(237, 237, 237, 0.359);
+  }
+
+  &__outlet {
+    border-radius: 10px;
+    background-color: rgba(237, 237, 237, 0.359);
+    width: 100%;
+    margin-top: 15px;
+    margin-right: 20px;
+    margin-left: 230px;
+    padding: 16px;
+    margin-bottom: 15px;
+  }
+}

@@ -1,0 +1,36 @@
+.EquipmentModal {
+  &__form {
+    &-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 18px;
+      flex: 1;
+      &-row {
+        gap: 6px;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &-imageName {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    &-action {
+      float: right;
+    }
+
+    &-error {
+      fieldset {
+        border-color: red;
+      }
+
+      &-text {
+        color: red;
+      }
+    }
+  }
+}

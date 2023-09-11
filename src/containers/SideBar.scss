@@ -1,0 +1,29 @@
+.Sidebar {
+  overflow: hidden;
+  height: 100%;
+  &__item {
+    padding: 16px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    &:hover {
+      .Sidebar__item-wrapper {
+        color: #46d1db;
+      }
+    }
+
+    &-wrapper {
+      color: #838a9e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      float: left;
+      gap: 8px;
+    }
+
+    &-active {
+      color: #46d1db;
+    }
+  }
+}

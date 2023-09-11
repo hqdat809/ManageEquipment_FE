@@ -1,0 +1,42 @@
+.Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 550px;
+  background-color: white;
+  box-shadow: 6px 6px #58585817;
+  border-radius: 8px;
+  padding: 16px 8px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    border-bottom: 2px solid #ccc;
+
+    &-close {
+      padding: 8px;
+      border-radius: 4px;
+      margin-right: 16px;
+      cursor: pointer;
+      &:hover {
+        background-color: #09090918;
+      }
+    }
+
+    &-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  &__content {
+    padding: 24px 16px 16px 16px;
+    min-height: 200px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+}
