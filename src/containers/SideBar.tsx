@@ -1,7 +1,7 @@
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as routePath from "../routes/paths";
-import "./Sidebar.scss";
+import "./SideBar.scss";
 
 const Sidebar = () => {
   const navigate = useNavigate();
