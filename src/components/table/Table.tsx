@@ -6,11 +6,10 @@ import {
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import EquipmentCard from "../../containers/equipment-card/EquipmentCard";
 import { IEquipmentDetail } from "../../interfaces/equipment-interface";
 import { IUserDetail } from "../../interfaces/user-interfaces";
-import { getEquipmentAction } from "../../stores/actions/equipment-actions";
 import { TRootState } from "../../stores/reducers";
 import Modal from "../modal/Modal";
 
