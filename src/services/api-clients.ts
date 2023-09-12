@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import { EAuthToken } from "../interfaces/user-interfaces";
 import { SIGNIN } from "../routes/paths";
 
@@ -10,16 +10,15 @@ const instance = axios.create({
   },
 });
 
-const requestHandler = (config: AxiosRequestConfig) => {
+const requestHandler = (config: any) => {
   const atk = localStorage.getItem(EAuthToken.ACCESS_TOKEN);
 
   if (atk) {
-    const configHeaders = {
-      Authorization: `Bearer ${atk}`,
+    const tempHeaders = {
       ...config.headers,
+      Authorization: `Bearer ${atk}`,
     };
-    config.headers = configHeaders;
-
+    config.headers = tempHeaders;
     config.params = {
       ...config.params,
       version: Date.now(),
