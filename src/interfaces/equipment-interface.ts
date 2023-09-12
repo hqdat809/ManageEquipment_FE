@@ -12,6 +12,7 @@ export interface IEquipmentDetail {
 }
 
 export interface IGetEquipmentRequest {
+  name?: string;
   pageNo: number;
   pageSize: number;
 }

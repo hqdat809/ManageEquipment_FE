@@ -1,8 +1,9 @@
 .HomePage {
   display: flex;
   position: relative;
-  background-color: #8ec5fc;
-  background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+  background-color: #545454;
+
+  // background-image: linear-gradient(62deg, #f045ff3f 0%, #ff7648eb 100%);
 
   min-height: 100vh;
 
@@ -11,12 +12,12 @@
     position: fixed;
     height: 100vh;
     min-width: 200px;
-    background-color: rgba(237, 237, 237, 0.359);
+    background-color: white;
   }
 
   &__outlet {
     border-radius: 10px;
-    background-color: rgba(237, 237, 237, 0.359);
+    background-color: white;
     width: 100%;
     margin-top: 15px;
     margin-right: 20px;

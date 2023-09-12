@@ -1,0 +1,29 @@
+.SignIn {
+  .btn-login {
+    width: 100%;
+  }
+
+  .login-error-text {
+    color: rgb(255, 74, 74);
+  }
+
+  .login-error-field {
+    border-color: red;
+  }
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}

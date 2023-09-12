@@ -12,20 +12,6 @@ const Sidebar = () => {
       label: (
         <div
           className={`Sidebar__item-wrapper ${
-            (location.pathname === routePath.VIEW ||
-              location.pathname === "/") &&
-            "Sidebar__item-active"
-          }`}
-        >
-          <SchoolRoundedIcon /> View
-        </div>
-      ),
-      route: routePath.VIEW,
-    },
-    {
-      label: (
-        <div
-          className={`Sidebar__item-wrapper ${
             location.pathname === routePath.USER && "Sidebar__item-active"
           }`}
         >

@@ -18,6 +18,8 @@ import { TRootState } from "../../stores/reducers";
 import "./Equipment.scss";
 import EquipmentModal from "./modal/EquipmentModal";
 import EquipmentTransferModal from "./modal/EquipmentTransferModal";
+import SearchButton from "../../components/search-button/SearchButton";
+import _ from "lodash";
 
 const Equipment = () => {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const Equipment = () => {
     (state: TRootState) => state.equipment.totalPages
   );
   const [page, setPage] = useState(1);
+  const [searchText, setSearchText] = useState("");
   const [isOpenModalTransfer, setIsOpenModalTransfer] = useState(false);
   const [isOpenEquipmentModal, setIsOpenEquipmentModal] = useState(false);
   const [transferEquipmentId, setTransferEquipmentId] = useState<number[]>([]);
@@ -50,7 +53,9 @@ const Equipment = () => {
   ) => {
     console.log(event);
     setPage(value);
-    dispatch(getEquipmentAction({ pageNo: value - 1, pageSize: 5 }));
+    dispatch(
+      getEquipmentAction({ name: searchText, pageNo: value - 1, pageSize: 5 })
+    );
   };
 
   const handleCreateEquipment = (values: any) => {
@@ -63,7 +68,9 @@ const Equipment = () => {
   };
 
   const handleGetEquipments = () => {
-    dispatch(getEquipmentAction({ pageNo: page - 1, pageSize: 5 }));
+    dispatch(
+      getEquipmentAction({ name: searchText, pageNo: page - 1, pageSize: 5 })
+    );
   };
 
   const handleClickTransfer = (equipmentId: number) => {
@@ -80,6 +87,13 @@ const Equipment = () => {
     );
   };
 
+  const debounceSearch = _.debounce((value: string) => {
+    setSearchText(value.trim());
+    dispatch(
+      getEquipmentAction({ name: value.trim(), pageNo: page - 1, pageSize: 5 })
+    );
+  }, 800);
+
   useEffect(() => {
     handleGetEquipments();
   }, []);
@@ -87,6 +101,7 @@ const Equipment = () => {
   return (
     <div className="Equipment">
       <div className="Equipment__actions">
+        <SearchButton onSearch={debounceSearch} />
         <Button
           variant="contained"
           onClick={() => {

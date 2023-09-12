@@ -6,12 +6,14 @@ import {
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EquipmentCard from "../../containers/equipment-card/EquipmentCard";
 import { IEquipmentDetail } from "../../interfaces/equipment-interface";
 import { IUserDetail } from "../../interfaces/user-interfaces";
 import { TRootState } from "../../stores/reducers";
 import Modal from "../modal/Modal";
+import { getEquipmentAction } from "../../stores/actions/equipment-actions";
+import { EEquipmentActions } from "../../stores/actions/equipment-actions/constants";
 
 interface IOwnerEquipmentProps {
   userId: number;
@@ -29,12 +31,20 @@ const OwnerColumn = ({ userId }: IOwnerEquipmentProps) => {
 };
 
 const EquipmentColumn = (equipmentIds: number[]) => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(
+    (state: TRootState) => state.loading[EEquipmentActions.GET_EQUIPMENT]
+  );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const equipments = useSelector((state: TRootState) =>
     state.equipment.equipments.filter((equip: IEquipmentDetail) =>
       equipmentIds.some((equipmentId: number) => equip.id === equipmentId)
     )
   );
+
+  const handleGetEquipment = () => {
+    dispatch(getEquipmentAction());
+  };
 
   const handleClickCheck = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -61,7 +71,12 @@ const EquipmentColumn = (equipmentIds: number[]) => {
           {equipments.length ? (
             equipments.map((equip: IEquipmentDetail) => (
               <div>
-                <EquipmentCard details={equip} isData />
+                <EquipmentCard
+                  details={equip}
+                  isLoading={isLoading}
+                  isData
+                  handleGetEquipments={handleGetEquipment}
+                />
               </div>
             ))
           ) : (

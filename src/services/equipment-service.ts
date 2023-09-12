@@ -28,7 +28,9 @@ export const updateEquipment = async (payload: any) => {
 export const getEquipment = async (payload?: IGetEquipmentRequest) => {
   if (payload) {
     const response = await ApiClient.get(
-      `/equipment/equipments-by-page?pageNo=${payload.pageNo}&pageSize=${payload.pageSize}`
+      `/equipment/equipments-by-page?pageNo=${payload.pageNo}&pageSize=${
+        payload.pageSize
+      }&name=${payload.name || ""}`
     );
     return response.data;
   } else {

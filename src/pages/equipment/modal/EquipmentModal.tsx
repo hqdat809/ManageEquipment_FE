@@ -29,12 +29,12 @@ const EquipmentModal = ({
   const [imageName, setImageName] = useState("");
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string(),
+    name: Yup.string().required("Name's equipment is require!!"),
   });
 
   const updateValidationSchema = Yup.object().shape({
     id: Yup.number(),
-    name: Yup.string(),
+    name: Yup.string().required("Name's equipment is require!!"),
   });
 
   const VisuallyHiddenInput = styled("input")`
