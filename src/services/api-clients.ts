@@ -61,12 +61,7 @@ const refreshAccessToken = async () => {
     localStorage.removeItem(EAuthToken.ACCESS_TOKEN);
     localStorage.removeItem(EAuthToken.REFRESH_TOKEN);
     localStorage.removeItem("persist:root");
-    if (
-      confirm("Your session has timed out and you have been logged off.") ===
-      true
-    ) {
-      window.location.href = SIGNIN;
-    }
+    window.location.href = SIGNIN;
   }
 };
 

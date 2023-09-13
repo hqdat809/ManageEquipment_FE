@@ -1,7 +1,7 @@
 .HomePage {
   display: flex;
   position: relative;
-  background-color: #545454;
+  background-color: #666666;
 
   // background-image: linear-gradient(62deg, #f045ff3f 0%, #ff7648eb 100%);
 
@@ -17,12 +17,33 @@
 
   &__outlet {
     border-radius: 10px;
-    background-color: white;
     width: 100%;
     margin-top: 15px;
     margin-right: 20px;
     margin-left: 230px;
     padding: 16px;
     margin-bottom: 15px;
+
+    &-content {
+      background-color: white;
+      padding: 16px;
+      border-radius: 10px;
+      width: 100%;
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &-user {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+      cursor: pointer;
+      color: white;
+    }
   }
 }

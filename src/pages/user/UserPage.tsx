@@ -82,7 +82,6 @@ const UserPage = () => {
 
   useEffect(() => {
     handleGetUsers();
-    handleGetEquipments();
   }, []);
 
   return (

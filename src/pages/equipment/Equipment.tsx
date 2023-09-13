@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EquipmentCard from "../../containers/equipment-card/EquipmentCard";
 import {
@@ -33,6 +33,7 @@ const Equipment = () => {
   const totalPage = useSelector(
     (state: TRootState) => state.equipment.totalPages
   );
+  const userData = useSelector((state: TRootState) => state.authUser.userData);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [isOpenModalTransfer, setIsOpenModalTransfer] = useState(false);
@@ -53,9 +54,6 @@ const Equipment = () => {
   ) => {
     console.log(event);
     setPage(value);
-    dispatch(
-      getEquipmentAction({ name: searchText, pageNo: value - 1, pageSize: 5 })
-    );
   };
 
   const handleCreateEquipment = (values: any) => {
@@ -68,9 +66,20 @@ const Equipment = () => {
   };
 
   const handleGetEquipments = () => {
-    dispatch(
-      getEquipmentAction({ name: searchText, pageNo: page - 1, pageSize: 5 })
-    );
+    if (userData?.roles[0].name === "USER") {
+      dispatch(
+        getEquipmentAction({
+          ownerId: userData?.id,
+          name: searchText,
+          pageNo: page - 1,
+          pageSize: 5,
+        })
+      );
+    } else {
+      dispatch(
+        getEquipmentAction({ name: searchText, pageNo: page - 1, pageSize: 5 })
+      );
+    }
   };
 
   const handleClickTransfer = (equipmentId: number) => {
@@ -87,30 +96,40 @@ const Equipment = () => {
     );
   };
 
-  const debounceSearch = _.debounce((value: string) => {
+  const getEquipmentDebounce = useCallback((value: string) => {
     setSearchText(value.trim());
-    dispatch(
-      getEquipmentAction({ name: value.trim(), pageNo: page - 1, pageSize: 5 })
-    );
-  }, 800);
+  }, []);
+
+  const debounceSearch = _.debounce(getEquipmentDebounce, 800);
 
   useEffect(() => {
     handleGetEquipments();
-  }, []);
+  }, [searchText, page]);
 
   return (
     <div className="Equipment">
       <div className="Equipment__actions">
-        <SearchButton onSearch={debounceSearch} />
-        <Button
-          variant="contained"
-          onClick={() => {
-            setIsOpenEquipmentModal(true);
-            setEquipmentModalType(EEquipmentModalType.CREATE_EQUIPMENT);
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          Create Equipment
-        </Button>
+          <SearchButton onSearch={debounceSearch} />
+          {searchText && <p>Searching '{searchText}'...</p>}
+        </div>
+        {userData?.roles[0].name === "ADMIN" && (
+          <Button
+            variant="contained"
+            onClick={() => {
+              setIsOpenEquipmentModal(true);
+              setEquipmentModalType(EEquipmentModalType.CREATE_EQUIPMENT);
+            }}
+          >
+            Create Equipment
+          </Button>
+        )}
       </div>
       <div className="Equipment__list">
         <div className="Equipment__pagination">

@@ -29,20 +29,20 @@ const UserModal = ({
   selectedUser,
 }: IUserModalProps) => {
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string(),
-    lastName: Yup.string(),
-    address: Yup.string(),
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    firstName: Yup.string().required("First Name is required!"),
+    lastName: Yup.string().required("Last Name is required!"),
+    address: Yup.string().required("Address is required!"),
+    email: Yup.string().email("Invalid email!").required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const updateValidationSchema = Yup.object().shape({
     id: Yup.number(),
-    firstName: Yup.string(),
-    lastName: Yup.string(),
-    address: Yup.string(),
-    email: Yup.string()
-      .email("Email not valid!!")
-      .required("Email is required"),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    address: Yup.string().required("Address is required"),
+    email: Yup.string().email("Invalid email!").required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const handleSubmit = (
@@ -89,6 +89,7 @@ const UserModal = ({
                   lastName: "",
                   address: "",
                   email: "",
+                  password: "",
                 }
               : {
                   id: selectedUser?.id,
@@ -199,6 +200,29 @@ const UserModal = ({
                   />
                   <ErrorMessage
                     name="email"
+                    component="div"
+                    className="UserModal__form-error-text"
+                  />
+                </div>
+                <div className="UserModal__form-field">
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    label="Password"
+                    onChange={formikProps.handleChange}
+                    onBlur={formikProps.handleBlur}
+                    value={formikProps.values.password}
+                    type="password"
+                    name="password"
+                    className={`form-control ${
+                      formikProps.errors.password &&
+                      formikProps.touched.password &&
+                      "UserModal__form-error"
+                    }`}
+                    placeholder="Enter student's password"
+                  />
+                  <ErrorMessage
+                    name="password"
                     component="div"
                     className="UserModal__form-error-text"
                   />

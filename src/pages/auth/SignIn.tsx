@@ -5,7 +5,7 @@ import { signInAction } from "../../stores/actions/auth-actions";
 import "./SignIn.scss";
 
 import { Navigate, useNavigate } from "react-router-dom";
-import { USER } from "../../routes/paths";
+import { EQUIPMENT, USER } from "../../routes/paths";
 import { toastError, toastSuccess } from "../../utils/notifications-utils";
 import { handleStorageToken } from "../../utils/storage-utils";
 import {
@@ -21,6 +21,7 @@ import { EAuthActions } from "../../stores/actions/auth-actions/constants";
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userData = useSelector((state: TRootState) => state.authUser.userData);
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
@@ -51,7 +52,12 @@ const SignIn = () => {
   };
 
   if (accessToken) {
-    return <Navigate to={USER} replace />;
+    return (
+      <Navigate
+        to={userData?.roles[0].name === "ADMIN" ? USER : EQUIPMENT}
+        replace
+      />
+    );
   }
 
   return (

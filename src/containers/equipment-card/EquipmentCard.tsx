@@ -36,6 +36,7 @@ const EquipmentCard = ({
   const owner = useSelector((state: TRootState) => state.user.users).find(
     (user) => user.id === details.ownerId
   );
+  const userData = useSelector((state: TRootState) => state.authUser.userData);
   const [isOpenEquipmentModal, setIsOpenEquipmentModal] = useState(false);
   const [isOpenHistoryModal, setIsOpenHistoryModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -80,8 +81,10 @@ const EquipmentCard = ({
             (Adjectives).
           </div>
           <div className="EquipmentCard__owner">
-            <label style={{ fontWeight: "bold" }}>Owner:</label>{" "}
-            {owner?.firstName} {owner?.lastName}
+            <label style={{ fontWeight: "bold" }}>Owner:</label>
+            {userData?.roles[0].name == "ADMIN"
+              ? `${owner?.firstName} ${owner?.lastName}`
+              : `${userData?.firstName} ${userData?.lastName}`}
           </div>
         </div>
       ) : (
@@ -90,55 +93,57 @@ const EquipmentCard = ({
           <Skeleton height={100} />
         </div>
       )}
+      {userData?.roles[0].name === "ADMIN" && (
+        <div className="EquipmentCard__menu">
+          <MoreVertIcon onClick={(e) => handleClick(e)} />
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            {!isData && (
+              <MenuItem
+                onClick={() => {
+                  onClickTransfer?.(details.id);
+                  handleClose();
+                }}
+              >
+                Transfer
+              </MenuItem>
+            )}
 
-      <div className="EquipmentCard__menu">
-        <MoreVertIcon onClick={(e) => handleClick(e)} />
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          {!isData && (
             <MenuItem
               onClick={() => {
-                onClickTransfer?.(details.id);
                 handleClose();
+                setIsOpenEquipmentModal(true);
               }}
             >
-              Transfer
+              Update
             </MenuItem>
-          )}
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                handleDeleteEquipment(details.id);
+              }}
+            >
+              Delete
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                handleClickHistory();
+              }}
+            >
+              History
+            </MenuItem>
+          </Menu>
+        </div>
+      )}
 
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              setIsOpenEquipmentModal(true);
-            }}
-          >
-            Update
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              handleDeleteEquipment(details.id);
-            }}
-          >
-            Delete
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              handleClickHistory();
-            }}
-          >
-            History
-          </MenuItem>
-        </Menu>
-      </div>
       <EquipmentModal
         isOpenModal={isOpenEquipmentModal}
         equipmentModalType={EEquipmentModalType.UPDATE_EQUIPMENT}

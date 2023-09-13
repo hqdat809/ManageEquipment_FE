@@ -30,7 +30,7 @@ export const getEquipment = async (payload?: IGetEquipmentRequest) => {
     const response = await ApiClient.get(
       `/equipment/equipments-by-page?pageNo=${payload.pageNo}&pageSize=${
         payload.pageSize
-      }&name=${payload.name || ""}`
+      }&name=${payload.name || ""}&ownerId=${payload.ownerId || 0}`
     );
     return response.data;
   } else {
