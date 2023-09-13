@@ -42,7 +42,7 @@ const UserModal = ({
     lastName: Yup.string().required("Last Name is required"),
     address: Yup.string().required("Address is required"),
     email: Yup.string().email("Invalid email!").required("Email is required"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string(),
   });
 
   const handleSubmit = (

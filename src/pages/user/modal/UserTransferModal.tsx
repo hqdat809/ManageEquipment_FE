@@ -1,11 +1,12 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../../components/modal/Modal";
 import Table, { equipmentColumn } from "../../../components/table/Table";
 import { IEquipmentDetail } from "../../../interfaces/equipment-interface";
 import { IUserDetail } from "../../../interfaces/user-interfaces";
 import { TRootState } from "../../../stores/reducers";
+import { getEquipmentAction } from "../../../stores/actions/equipment-actions";
 interface IProps {
   selectedUser: IUserDetail;
   isOpenModal: boolean;
@@ -19,12 +20,17 @@ const UserTransferModal = ({
   onCloseModal,
   onTransfer,
 }: IProps) => {
+  const dispatch = useDispatch();
   const equipmentDatas: IEquipmentDetail[] = useSelector((state: TRootState) =>
     state.equipment.equipments?.filter(
       (e: IEquipmentDetail) => e.ownerId != selectedUser?.id
     )
   );
   const [selectedEquipment, setSelectedEquipment] = useState<IUserDetail[]>();
+
+  useEffect(() => {
+    dispatch(getEquipmentAction());
+  }, [isOpenModal]);
 
   return (
     <Modal

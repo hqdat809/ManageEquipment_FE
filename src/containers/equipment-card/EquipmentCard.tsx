@@ -81,10 +81,10 @@ const EquipmentCard = ({
             (Adjectives).
           </div>
           <div className="EquipmentCard__owner">
-            <label style={{ fontWeight: "bold" }}>Owner:</label>
-            {userData?.roles[0].name == "ADMIN"
-              ? `${owner?.firstName} ${owner?.lastName}`
-              : `${userData?.firstName} ${userData?.lastName}`}
+            <label style={{ fontWeight: "bold" }}>Owner: </label>
+            {userData?.roles[0].name == "USER"
+              ? ` ${owner?.firstName} ${owner?.lastName}`
+              : ` ${userData?.firstName} ${userData?.lastName}`}
           </div>
         </div>
       ) : (
