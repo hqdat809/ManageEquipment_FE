@@ -16,6 +16,7 @@ import {
 } from "../../stores/actions/equipment-actions";
 import { TRootState } from "../../stores/reducers";
 import "./EquipmentCard.scss";
+import ConfirmModal from "../../components/modal/ConfirmModal";
 
 interface IEquipmentCardProps {
   details: IEquipmentDetail;
@@ -40,6 +41,7 @@ const EquipmentCard = ({
   const [isOpenEquipmentModal, setIsOpenEquipmentModal] = useState(false);
   const [isOpenHistoryModal, setIsOpenHistoryModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -48,8 +50,9 @@ const EquipmentCard = ({
     setAnchorEl(null);
   };
 
-  const handleDeleteEquipment = (id: number) => {
-    dispatch(deleteEquipmentAction(id, handleGetEquipments));
+  const handleDeleteEquipment = () => {
+    dispatch(deleteEquipmentAction(details.id, handleGetEquipments));
+    setIsDeleting(false);
   };
 
   const handleUpdateEquipment = (values: any) => {
@@ -59,6 +62,10 @@ const EquipmentCard = ({
 
   const handleClickHistory = () => {
     setIsOpenHistoryModal(true);
+  };
+
+  const handleClickDelete = () => {
+    setIsDeleting(true);
   };
 
   return (
@@ -82,8 +89,8 @@ const EquipmentCard = ({
           </div>
           <div className="EquipmentCard__owner">
             <label style={{ fontWeight: "bold" }}>Owner: </label>
-            {userData?.roles[0].name == "USER"
-              ? ` ${owner?.firstName} ${owner?.lastName}`
+            {userData?.roles[0].name == "ADMIN"
+              ? ` ${owner?.firstName || ""} ${owner?.lastName || ""}`
               : ` ${userData?.firstName} ${userData?.lastName}`}
           </div>
         </div>
@@ -127,7 +134,7 @@ const EquipmentCard = ({
             <MenuItem
               onClick={() => {
                 handleClose();
-                handleDeleteEquipment(details.id);
+                handleClickDelete();
               }}
             >
               Delete
@@ -155,6 +162,12 @@ const EquipmentCard = ({
         isOpenModal={isOpenHistoryModal}
         onCloseModal={() => setIsOpenHistoryModal(false)}
         transferredUserIds={details.transferredUserIds}
+      />
+      <ConfirmModal
+        isOpen={isDeleting}
+        title="Do you want delete this equipment?"
+        onConfirm={handleDeleteEquipment}
+        onCancel={() => setIsDeleting(false)}
       />
     </div>
   );

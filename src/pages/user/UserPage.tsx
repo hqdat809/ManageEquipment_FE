@@ -21,6 +21,7 @@ import { TRootState } from "../../stores/reducers";
 import "./UserPage.scss";
 import UserModal from "./modal/UserModal";
 import UserTransferModal from "./modal/UserTransferModal";
+import ConfirmModal from "../../components/modal/ConfirmModal";
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const UserPage = () => {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [isOpenTransferModal, setIsOpenTransferModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCloseModal = () => {
     setIsOpenCreateModal(false);
@@ -57,10 +59,15 @@ const UserPage = () => {
   const handleDeleteUser = () => {
     const selectedUserIds = selectedUser.map((user: IUserDetail) => user.id);
     dispatch(deleteUserAction(selectedUserIds, handleGetUsers));
+    setIsDeleting(false);
   };
 
   const handleClickTransfer = () => {
     setIsOpenTransferModal(true);
+  };
+
+  const handleClickDelete = () => {
+    setIsDeleting(true);
   };
 
   const handleGetEquipments = () => {
@@ -120,7 +127,7 @@ const UserPage = () => {
           <Button
             variant="contained"
             color="error"
-            onClick={handleDeleteUser}
+            onClick={handleClickDelete}
             disabled={selectedUser.length === 0}
           >
             Delete User
@@ -148,6 +155,12 @@ const UserPage = () => {
         isOpenModal={isOpenTransferModal}
         onCloseModal={() => setIsOpenTransferModal(false)}
         onTransfer={handleTransferEquipment}
+      />
+      <ConfirmModal
+        isOpen={isDeleting}
+        title="Do you want delete these students?"
+        onConfirm={handleDeleteUser}
+        onCancel={() => setIsDeleting(false)}
       />
     </div>
   );
