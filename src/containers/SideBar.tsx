@@ -5,7 +5,8 @@ import "./SideBar.scss";
 import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { TRootState } from "../stores/reducers";
-
+import BuildIcon from "@mui/icons-material/Build";
+import PersonIcon from "@mui/icons-material/Person";
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,7 +20,7 @@ const Sidebar = () => {
             location.pathname === routePath.USER && "Sidebar__item-active"
           }`}
         >
-          <SchoolRoundedIcon /> User
+          <PersonIcon /> User
         </div>
       ),
       route: routePath.USER,
@@ -31,7 +32,7 @@ const Sidebar = () => {
             location.pathname === routePath.EQUIPMENT && "Sidebar__item-active"
           }`}
         >
-          <SchoolRoundedIcon /> Equipment
+          <BuildIcon /> Equipment
         </div>
       ),
       route: routePath.EQUIPMENT,
@@ -46,7 +47,7 @@ const Sidebar = () => {
             location.pathname === routePath.EQUIPMENT && "Sidebar__item-active"
           }`}
         >
-          <SchoolRoundedIcon /> Equipment
+          <BuildIcon /> Equipment
         </div>
       ),
       route: routePath.EQUIPMENT,
