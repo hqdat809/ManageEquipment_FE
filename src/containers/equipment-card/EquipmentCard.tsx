@@ -51,7 +51,7 @@ const EquipmentCard = ({
   };
 
   const handleDeleteEquipment = () => {
-    dispatch(deleteEquipmentAction(details.id, handleGetEquipments));
+    dispatch(deleteEquipmentAction([details.id], handleGetEquipments));
     setIsDeleting(false);
   };
 
@@ -89,7 +89,7 @@ const EquipmentCard = ({
           </div>
           <div className="EquipmentCard__owner">
             <label style={{ fontWeight: "bold" }}>Owner: </label>
-            {userData?.roles[0].name == "ADMIN"
+            {userData?.role.name == "ADMIN"
               ? ` ${owner?.firstName || ""} ${owner?.lastName || ""}`
               : ` ${userData?.firstName} ${userData?.lastName}`}
           </div>
@@ -100,7 +100,7 @@ const EquipmentCard = ({
           <Skeleton height={100} />
         </div>
       )}
-      {userData?.roles[0].name === "ADMIN" && (
+      {userData?.role.name === "ADMIN" && (
         <div className="EquipmentCard__menu">
           <MoreVertIcon onClick={(e) => handleClick(e)} />
           <Menu

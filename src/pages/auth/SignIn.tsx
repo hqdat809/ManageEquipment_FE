@@ -54,7 +54,7 @@ const SignIn = () => {
   if (accessToken) {
     return (
       <Navigate
-        to={userData?.roles[0].name === "ADMIN" ? USER : EQUIPMENT}
+        to={userData?.role.name === "ADMIN" ? USER : EQUIPMENT}
         replace
       />
     );

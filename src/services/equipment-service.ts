@@ -28,9 +28,7 @@ export const updateEquipment = async (payload: any) => {
 export const getEquipment = async (payload?: IGetEquipmentRequest) => {
   if (payload) {
     const response = await ApiClient.get(
-      `/equipment/equipments-by-page?pageNo=${payload.pageNo}&pageSize=${
-        payload.pageSize
-      }&name=${payload.name || ""}&ownerId=${payload.ownerId || 0}`
+      `/equipment/equipments-by-owner-id?ownerId=${payload.ownerId}`
     );
     return response.data;
   } else {
@@ -39,9 +37,9 @@ export const getEquipment = async (payload?: IGetEquipmentRequest) => {
   }
 };
 
-export const deleteEquipment = async (payload: number) => {
+export const deleteEquipment = async (payload: number[]) => {
   const response = await ApiClient.delete(`/equipment/delete`, {
-    data: { ids: [payload] },
+    data: { ids: payload },
   });
 
   return response.data;

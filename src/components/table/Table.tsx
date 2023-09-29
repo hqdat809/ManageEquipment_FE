@@ -8,15 +8,26 @@ import {
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EquipmentCard from "../../containers/equipment-card/EquipmentCard";
-import { IEquipmentDetail } from "../../interfaces/equipment-interface";
+import {
+  EEquipmentModalType,
+  IEquipmentDetail,
+} from "../../interfaces/equipment-interface";
 import { IUserDetail } from "../../interfaces/user-interfaces";
 import { TRootState } from "../../stores/reducers";
 import Modal from "../modal/Modal";
-import { getEquipmentAction } from "../../stores/actions/equipment-actions";
+import {
+  getEquipmentAction,
+  updateEquipmentAction,
+} from "../../stores/actions/equipment-actions";
 import { EEquipmentActions } from "../../stores/actions/equipment-actions/constants";
 import Pagination from "@mui/material/Pagination";
 import SearchButton from "../search-button/SearchButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import _ from "lodash";
+import EquipmentModal from "../../pages/equipment/modal/EquipmentModal";
+import HistoryModal from "../../pages/equipment/modal/HistoryModal";
 
 interface IOwnerEquipmentProps {
   userId: number;
@@ -35,7 +46,7 @@ const OwnerColumn = ({ userId }: IOwnerEquipmentProps) => {
 
 const EquipmentColumn = (userId: number) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(
+  const loadingEquipment = useSelector(
     (state: TRootState) => state.loading[EEquipmentActions.GET_EQUIPMENT]
   );
   const totalPage = useSelector(
@@ -103,32 +114,13 @@ const EquipmentColumn = (userId: number) => {
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {equipments.length ? (
             <div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginBottom: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                >
-                  <SearchButton onSearch={debounceSearch} />
-                  {searchText && <p>Searching '{searchText}'...</p>}
-                </div>
-                <Pagination
-                  defaultPage={page}
-                  count={totalPage}
-                  color="primary"
-                  onChange={handleChangePage}
-                />
-              </div>
-
-              {equipments.map((equip: IEquipmentDetail) => (
+              <Table
+                columns={equipmentColumn}
+                rows={equipments}
+                isLoading={loadingEquipment}
+                notCheckBoxSelection
+              />
+              {/* {equipments.map((equip: IEquipmentDetail) => (
                 <div style={{ marginBottom: "12px" }}>
                   <EquipmentCard
                     details={equip}
@@ -137,7 +129,7 @@ const EquipmentColumn = (userId: number) => {
                     handleGetEquipments={handleGetEquipment}
                   />
                 </div>
-              ))}
+              ))} */}
             </div>
           ) : (
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -150,20 +142,117 @@ const EquipmentColumn = (userId: number) => {
   );
 };
 
+const ActionColumn = ({ equipment }: { equipment: IEquipmentDetail }) => {
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
+  const [isOpenHistoryModal, setIsOpenHistoryModal] = useState(false);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: any) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleGetEquipments = () => {
+    dispatch(getEquipmentAction());
+  };
+
+  const handleUpdateEquipment = (values: any) => {
+    console.log(values);
+    dispatch(updateEquipmentAction(values, handleGetEquipments));
+  };
+
+  return (
+    <div className="EquipmentCard__menu">
+      <MoreVertIcon onClick={(e) => handleClick(e)} />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenUpdateModal(true);
+          }}
+        >
+          Update
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setIsOpenHistoryModal(true);
+          }}
+        >
+          History
+        </MenuItem>
+      </Menu>
+      <EquipmentModal
+        isOpenModal={isOpenUpdateModal}
+        equipmentModalType={EEquipmentModalType.UPDATE_EQUIPMENT}
+        handleCloseModal={() => setIsOpenUpdateModal(false)}
+        onUpdateEquipment={handleUpdateEquipment}
+        selectedEquipment={equipment}
+      />
+      <HistoryModal
+        isOpenModal={isOpenHistoryModal}
+        onCloseModal={() => setIsOpenHistoryModal(false)}
+        transferredUserIds={equipment.transferredUserIds}
+      />
+    </div>
+  );
+};
+
 export const equipmentColumn: GridColDef[] = [
   { field: "id", headerName: "ID", width: 70 },
   {
+    field: "imageUrl",
+    headerName: "Image",
+    width: 100,
+    renderCell: (params: GridRenderCellParams<IEquipmentDetail>) => (
+      <img
+        src={params.value}
+        style={{ objectFit: "cover", height: "70px", objectPosition: "center" }}
+      />
+    ),
+  },
+  {
     field: "name",
     headerName: "Name",
-    width: 250,
+    width: 150,
   },
-  { field: "description", headerName: "Description", width: 300 },
+
+  {
+    field: "description",
+    headerName: "Description",
+    width: 400,
+    valueGetter: (params: GridValueGetterParams) => {
+      return "The morning air was crisp and sharp as Sean walked down the road. The pavement was slippery and cold beneath his feet, like a slimy, wet fish. For more information about words that help describe people, places and things, look at the topic on describing words (Adjectives).";
+    },
+  },
   {
     field: "ownerId",
     headerName: "Owner",
-    width: 300,
+    width: 150,
     renderCell: (params: GridRenderCellParams<IEquipmentDetail>) => (
       <OwnerColumn userId={params.value} />
+    ),
+  },
+  {
+    field: "a",
+    headerName: "",
+    width: 50,
+    renderCell: (params: GridRenderCellParams<IEquipmentDetail>) => (
+      <ActionColumn equipment={params.row} />
     ),
   },
 ];
@@ -188,6 +277,21 @@ export const userColumn: GridColDef[] = [
     renderCell: (params: GridRenderCellParams<IEquipmentDetail>) =>
       EquipmentColumn(params.value),
   },
+];
+
+export const historyColumn: GridColDef[] = [
+  {
+    field: "name",
+    headerName: "Name",
+    minWidth: 250,
+    valueGetter: (params: GridValueGetterParams) => {
+      const str = `${params.row.firstName} ${params.row.lastName}`;
+
+      return str;
+    },
+  },
+  { field: "address", headerName: "Address", minWidth: 220 },
+  { field: "email", headerName: "Email", minWidth: 300 },
 ];
 
 interface ITableProps {

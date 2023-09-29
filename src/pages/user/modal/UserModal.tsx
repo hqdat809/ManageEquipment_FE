@@ -10,6 +10,7 @@ import {
   TUpdateUserRequest,
 } from "../../../interfaces/user-interfaces";
 import "./UserModal.scss";
+import { MenuItem } from "@mui/material";
 
 interface IUserModalProps {
   isOpenModal: boolean;
@@ -34,6 +35,7 @@ const UserModal = ({
     address: Yup.string().required("Address is required!"),
     email: Yup.string().email("Invalid email!").required("Email is required"),
     password: Yup.string().required("Password is required"),
+    role: Yup.string(),
   });
 
   const updateValidationSchema = Yup.object().shape({
@@ -43,6 +45,7 @@ const UserModal = ({
     address: Yup.string().required("Address is required"),
     email: Yup.string().email("Invalid email!").required("Email is required"),
     password: Yup.string(),
+    role: Yup.string(),
   });
 
   const handleSubmit = (
@@ -90,6 +93,7 @@ const UserModal = ({
                   address: "",
                   email: "",
                   password: "",
+                  role: "",
                 }
               : {
                   id: selectedUser?.id,
@@ -97,6 +101,7 @@ const UserModal = ({
                   lastName: selectedUser?.lastName,
                   address: selectedUser?.address,
                   email: selectedUser?.email,
+                  role: selectedUser?.role,
                 }
           }
           validationSchema={
@@ -157,6 +162,57 @@ const UserModal = ({
                     />
                   </div>
                 </div>
+                <div className="UserModal__form-field-row">
+                  <div className="UserModal__form-field">
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      label="Email"
+                      onChange={formikProps.handleChange}
+                      onBlur={formikProps.handleBlur}
+                      value={formikProps.values.email}
+                      type="email"
+                      name="email"
+                      className={`form-control ${
+                        formikProps.errors.email &&
+                        formikProps.touched.email &&
+                        "UserModal__form-error"
+                      }`}
+                      placeholder="Enter a valid email address"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="UserModal__form-error-text"
+                    />
+                  </div>
+                  <div className="UserModal__form-field">
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      label="Role"
+                      select
+                      onChange={formikProps.handleChange}
+                      onBlur={formikProps.handleBlur}
+                      value={formikProps.values.role}
+                      defaultValue="USER"
+                      name="role"
+                      className={`form-control ${
+                        formikProps.errors.role &&
+                        formikProps.touched.role &&
+                        "UserModal__form-error"
+                      }`}
+                    >
+                      <MenuItem key="1" value="USER">
+                        User
+                      </MenuItem>
+                      <MenuItem key="2" value="ADMIN">
+                        Admin
+                      </MenuItem>
+                    </TextField>
+                  </div>
+                </div>
+
                 <div className="UserModal__form-field">
                   <TextField
                     variant="outlined"
@@ -181,29 +237,6 @@ const UserModal = ({
                   />
                 </div>
 
-                <div className="UserModal__form-field">
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    label="Email"
-                    onChange={formikProps.handleChange}
-                    onBlur={formikProps.handleBlur}
-                    value={formikProps.values.email}
-                    type="email"
-                    name="email"
-                    className={`form-control ${
-                      formikProps.errors.email &&
-                      formikProps.touched.email &&
-                      "UserModal__form-error"
-                    }`}
-                    placeholder="Enter a valid email address"
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="UserModal__form-error-text"
-                  />
-                </div>
                 <div className="UserModal__form-field">
                   <TextField
                     variant="outlined"

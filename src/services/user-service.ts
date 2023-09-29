@@ -12,7 +12,8 @@ export const getUsers = async () => {
 };
 
 export const createUser = async (payload: TCreateUserRequest) => {
-  const response = await ApiClient.post(`/user/create`, payload);
+  const { role, ...rest } = payload;
+  const response = await ApiClient.post(`/user/create/${role}`, rest);
 
   return response.data;
 };

@@ -20,6 +20,6 @@ export type TUpdateEquipmentAction = {
 
 export type TDeleteEquipmentAction = {
   type: EEquipmentActions.DELETE_EQUIPMENT;
-  payload: number;
+  payload: number[];
   cb?: () => void;
 };

@@ -9,6 +9,7 @@ import {
 } from "../../interfaces/equipment-interface";
 import {
   createEquipmentAction,
+  deleteEquipmentAction,
   getEquipmentAction,
   updateEquipmentAction,
 } from "../../stores/actions/equipment-actions";
@@ -20,6 +21,8 @@ import EquipmentModal from "./modal/EquipmentModal";
 import EquipmentTransferModal from "./modal/EquipmentTransferModal";
 import SearchButton from "../../components/search-button/SearchButton";
 import _ from "lodash";
+import Table, { equipmentColumn } from "../../components/table/Table";
+import ConfirmModal from "../../components/modal/ConfirmModal";
 
 const Equipment = () => {
   const dispatch = useDispatch();
@@ -39,8 +42,9 @@ const Equipment = () => {
   const [isOpenModalTransfer, setIsOpenModalTransfer] = useState(false);
   const [isOpenEquipmentModal, setIsOpenEquipmentModal] = useState(false);
   const [transferEquipmentId, setTransferEquipmentId] = useState<number[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [selectedEquipment, setSelectedEquipment] =
-    useState<IEquipmentDetail>();
+    useState<IEquipmentDetail[]>();
   const [equipmentModalType, setEquipmentModalType] =
     useState<EEquipmentModalType>();
 
@@ -48,12 +52,8 @@ const Equipment = () => {
     setIsOpenEquipmentModal(false);
   };
 
-  const handleChangePage = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    console.log(event);
-    setPage(value);
+  const handleClickDelete = () => {
+    setIsDeleting(true);
   };
 
   const handleCreateEquipment = (values: any) => {
@@ -66,7 +66,7 @@ const Equipment = () => {
   };
 
   const handleGetEquipments = () => {
-    if (userData?.roles[0].name === "USER") {
+    if (userData?.role.name === "USER") {
       dispatch(
         getEquipmentAction({
           ownerId: userData?.id,
@@ -76,15 +76,14 @@ const Equipment = () => {
         })
       );
     } else {
-      dispatch(
-        getEquipmentAction({ name: searchText, pageNo: page - 1, pageSize: 5 })
-      );
+      dispatch(getEquipmentAction());
     }
   };
 
-  const handleClickTransfer = (equipmentId: number) => {
+  const handleClickTransfer = () => {
     setIsOpenModalTransfer(true);
-    setTransferEquipmentId([equipmentId]);
+    const selectedEquipmentIds = selectedEquipment?.map((equip) => equip.id);
+    setTransferEquipmentId(selectedEquipmentIds || []);
   };
 
   const handleTransfer = (userId: number) => {
@@ -100,7 +99,15 @@ const Equipment = () => {
     setSearchText(value.trim());
   }, []);
 
-  const debounceSearch = _.debounce(getEquipmentDebounce, 800);
+  const handleDeleteEquipment = () => {
+    const selectedEquipmentIds = selectedEquipment?.map((equip) => equip.id);
+    if (selectedEquipmentIds) {
+      dispatch(
+        deleteEquipmentAction(selectedEquipmentIds, handleGetEquipments)
+      );
+    }
+    setIsDeleting(false);
+  };
 
   useEffect(() => {
     handleGetEquipments();
@@ -116,10 +123,30 @@ const Equipment = () => {
             gap: "8px",
           }}
         >
-          <SearchButton onSearch={debounceSearch} />
-          {searchText && <p>Searching '{searchText}'...</p>}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleClickTransfer()}
+            disabled={!selectedEquipment?.length}
+          >
+            Transfer Equipments
+          </Button>
         </div>
-        {userData?.roles[0].name === "ADMIN" && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="error"
+            disabled={!selectedEquipment?.length}
+            onClick={handleClickDelete}
+          >
+            Delete Equipment
+          </Button>
           <Button
             variant="contained"
             onClick={() => {
@@ -129,25 +156,15 @@ const Equipment = () => {
           >
             Create Equipment
           </Button>
-        )}
+        </div>
       </div>
       <div className="Equipment__list">
-        <div className="Equipment__pagination">
-          <Pagination
-            defaultPage={page}
-            count={totalPage}
-            color="primary"
-            onChange={handleChangePage}
-          />
-        </div>
-        {equipments?.map((equipment: IEquipmentDetail) => (
-          <EquipmentCard
-            isLoading={isLoadingEquipment}
-            details={equipment}
-            onClickTransfer={handleClickTransfer}
-            handleGetEquipments={handleGetEquipments}
-          />
-        ))}
+        <Table
+          columns={equipmentColumn}
+          rows={equipments}
+          setSelection={setSelectedEquipment}
+          isLoading={isLoadingEquipment}
+        />
       </div>
       <EquipmentModal
         isOpenModal={isOpenEquipmentModal}
@@ -161,6 +178,12 @@ const Equipment = () => {
         isOpenModal={isOpenModalTransfer}
         onCloseModal={() => setIsOpenModalTransfer(false)}
         onTransfer={handleTransfer}
+      />
+      <ConfirmModal
+        isOpen={isDeleting}
+        title="Do you want delete this equipment?"
+        onConfirm={handleDeleteEquipment}
+        onCancel={() => setIsDeleting(false)}
       />
     </div>
   );

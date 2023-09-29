@@ -73,7 +73,7 @@ export const updateEquipmentFailureAction = (error: any) => ({
 });
 
 export const deleteEquipmentAction = (
-  payload: number,
+  payload: number[],
   cb?: () => void
 ): TDeleteEquipmentAction => ({
   type: EEquipmentActions.DELETE_EQUIPMENT,

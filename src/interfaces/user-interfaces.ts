@@ -5,6 +5,7 @@ export interface IUserDetail {
   address: string;
   email: string;
   equipmentIds: number[];
+  role: string;
 }
 
 export type TSignInRequest = {
@@ -38,6 +39,7 @@ export type TCreateUserRequest = {
   lastName: string;
   address: string;
   email: string;
+  role: string;
 };
 
 export type TUpdateUserRequest = {
@@ -46,6 +48,7 @@ export type TUpdateUserRequest = {
   lastName?: string;
   address?: string;
   email?: string;
+  role?: string;
 };
 
 export type TTransferEquipment = {
@@ -64,7 +67,7 @@ export interface IUserData {
   lastName: string;
   address: string;
   email: string;
-  roles: Role[];
+  role: Role;
   enabled: boolean;
   username: string;
   accountNonLocked: boolean;

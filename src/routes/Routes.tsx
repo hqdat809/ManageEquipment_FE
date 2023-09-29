@@ -49,9 +49,7 @@ const Routes = () => {
     <React.StrictMode>
       <Suspense>
         <RouterProvider
-          router={
-            userData?.roles[0].name === "ADMIN" ? adminRouter : userRouter
-          }
+          router={userData?.role.name === "ADMIN" ? adminRouter : userRouter}
         />
       </Suspense>
     </React.StrictMode>

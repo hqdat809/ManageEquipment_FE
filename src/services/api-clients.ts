@@ -3,7 +3,7 @@ import { EAuthToken } from "../interfaces/user-interfaces";
 import { SIGNIN } from "../routes/paths";
 
 const instance = axios.create({
-  baseURL: "https://manageequipment-production.up.railway.app/api", // Replace with your API URL
+  baseURL: "http://localhost:9090/api", // Replace with your API URL
   timeout: 10000, // Set request timeout (optional)
   headers: {
     "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const refreshAccessToken = async () => {
   try {
     const response = await axios
       .create({
-        baseURL: "https://manageequipment-production.up.railway.app/api",
+        baseURL: "http://localhost:9090/api",
         headers: {
           Authorization: `Bearer ${localStorage.getItem(
             EAuthToken.REFRESH_TOKEN

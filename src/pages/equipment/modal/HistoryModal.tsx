@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 import Modal from "../../../components/modal/Modal";
-import Table, { userColumn } from "../../../components/table/Table";
+import Table, {
+  historyColumn,
+  userColumn,
+} from "../../../components/table/Table";
 import { TRootState } from "../../../stores/reducers";
 
 interface IHistoryModalProps {
@@ -29,7 +32,7 @@ const HistoryModal = ({
       title="History transferred user modal"
     >
       <div>
-        <Table columns={userColumn} rows={userData} notCheckBoxSelection />
+        <Table columns={historyColumn} rows={userData} notCheckBoxSelection />
       </div>
     </Modal>
   );

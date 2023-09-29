@@ -83,10 +83,10 @@ const Sidebar = () => {
         <div className="Sidebar__name">
           {userData?.firstName} {userData?.lastName}
         </div>
-        <div className="Sidebar__role">{userData?.roles[0].name}</div>
+        <div className="Sidebar__role">{userData?.role.name}</div>
       </div>
       <div className="divider"></div>
-      {userData?.roles[0].name === "ADMIN"
+      {userData?.role.name === "ADMIN"
         ? adminTabs.map((tab, key) => renderSidebarItem(tab, key))
         : userTabs.map((tab, key) => renderSidebarItem(tab, key))}
     </div>
